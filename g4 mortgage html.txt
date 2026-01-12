@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>G4 Mortgage</title>
+
+    <!-- Tailwind (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: { sans: ["ui-sans-serif", "system-ui", "Inter", "Arial"] },
+          },
+        },
+      };
+    </script>
+  </head>
+
+  <body class="bg-white text-slate-900">
+    <div id="root"></div>
+
+    <!-- React (CDN) -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+    <script>
+      const { useEffect, useMemo, useRef, useState } = React;
+
+      // Brand tokens
+      const colors = {
+        primary: "#0B3D91",
+        accent: "#082C5C",
+        bg: "#F2F6FF",
+      };
+
+      const APPLY_URL = "https://181106.my1003app.com/1998387/register?time=1721681398525";
+      const INQUIRY_URL = "https://181106.my1003app.com/1998387/inquiry?time=1725987208470";
+      const ZILLOW_PROFILE_URL = "https://www.zillow.com/profile/Joe%20Leslie";
+
+      // Elfsight
+      const ELFSIGHT_WIDGET_DIV =
+        '<div class="elfsight-app-c67759cc-4860-461d-a2c7-689b09adffb7" data-elfsight-app-lazy></div>';
+      const ELFSIGHT_SCRIPT_SRC = "https://elfsightcdn.com/platform.js";
+
+      const ZILLOW_RATING_AVG = 4.9;
+      const ZILLOW_REVIEW_COUNT = 137;
+
+      const Page = { home: "home", va: "va" };
+
+      function go(page) {
+        if (page === Page.va) window.location.hash = "va";
+        else window.location.hash = "";
+      }
+
+      function currentPageFromHash() {
+        const h = (window.location.hash || "").replace("#", "").toLowerCase();
+        return h === "va" ? Page.va : Page.home;
+      }
+
+      function Badge({ children }) {
+        return React.createElement(
+          "span",
+          {
+            className:
+              "inline-flex items-center rounded-full border border-slate-200 bg-white/70 px-3 py-1 text-xs font-semibold tracking-wide text-slate-600",
+          },
+          children
+        );
+      }
+
+      function calcMonthlyPI(loanAmount, annualRatePct, years) {
+        const n = Math.max(0, Math.round(years * 12));
+        if (!loanAmount || !n) return 0;
+        const monthlyRate = annualRatePct / 100 / 12;
+        if (monthlyRate === 0) return loanAmount / n;
+        const denom = 1 - Math.pow(1 + monthlyRate, -n);
+        if (denom === 0) return 0;
+        return (loanAmount * monthlyRate) / denom;
+      }
+
+      function formatMoney0(x) {
+        return (x || 0).toLocaleString("en-US", { maximumFractionDigits: 0 });
+      }
+
+      function SiteHeader({ page }) {
+        return React.createElement(
+          "header",
+          { className: "sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur" },
+          React.createElement(
+            "div",
+            { className: "mx-auto flex max-w-7xl items-center justify-between px-4 py-3" },
+            React.createElement(
+              "a",
+              {
+                href: "#",
+                className: "flex items-center gap-2",
+                onClick: (e) => {
+                  e.preventDefault();
+                  go(Page.home);
+                },
+              },
+              React.createElement(
+                "div",
+                {
+                  className:
+                    "grid h-9 w-9 place-items-center rounded-xl text-sm font-bold text-white",
+                  style: { background: colors.primary },
+                },
+                "G4"
+              ),
+              React.createElement(
+                "div",
+                { className: "leading-tight" },
+                React.createElement(
+                  "div",
+                  { className: "text-sm font-bold", style: { color: colors.accent } },
+                  "G4 Mortgage"
+                ),
+                React.createElement("div", { className: "text-xs text-slate-500" }, "Home loans made simple")
+              )
+            ),
+            React.createElement(
+              "nav",
+              { className: "hidden items-center gap-6 md:flex" },
+              React.createElement(
+                "a",
+                {
+                  href: "#",
+                  onClick: (e) => {
+                    e.preventDefault();
+                    go(Page.home);
+                    setTimeout(() => {
+                      document.getElementById("programs")?.scrollIntoView({ behavior: "smooth" });
+                    }, 0);
+                  },
+                  className:
+                    "text-sm font-semibold hover:text-slate-900 " +
+                    (page === Page.home ? "text-slate-900" : "text-slate-700"),
+                },
+                "Loan Programs"
+              ),
+              React.createElement(
+                "a",
+                {
+                  href: "#",
+                  onClick: (e) => {
+                    e.preventDefault();
+                    go(Page.va);
+                  },
+                  className:
+                    "text-sm font-semibold hover:text-slate-900 " +
+                    (page === Page.va ? "text-slate-900" : "text-slate-700"),
+                },
+                "VA Loans"
+              ),
+              React.createElement(
+                "a",
+                { href: APPLY_URL, className: "text-sm font-semibold text-slate-700 hover:text-slate-900" },
+                "Apply"
+              ),
+              React.createElement(
+                "a",
+                { href: INQUIRY_URL, className: "text-sm font-semibold text-slate-700 hover:text-slate-900" },
+                "Inquiry"
+              )
+            ),
+            React.createElement(
+              "div",
+              { className: "flex items-center gap-3" },
+              React.createElement(
+                "a",
+                {
+                  href: APPLY_URL,
+                  className:
+                    "hidden items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-white shadow-sm md:inline-flex",
+                  style: { background: colors.primary },
+                },
+                "Apply Now"
+              )
+            )
+          )
+        );
+      }
+
+      function Footer() {
+        return React.createElement(
+          "footer",
+          { className: "border-t border-slate-200 bg-slate-900 text-slate-200" },
+          React.createElement(
+            "div",
+            { className: "mx-auto max-w-7xl px-4 py-12" },
+            React.createElement(
+              "div",
+              { className: "grid grid-cols-1 gap-8 md:grid-cols-4" },
+              React.createElement(
+                "div",
+                null,
+                React.createElement(
+                  "div",
+                  { className: "flex items-center gap-2" },
+                  React.createElement(
+                    "div",
+                    {
+                      className:
+                        "grid h-10 w-10 place-items-center rounded-xl text-sm font-bold text-white",
+                      style: { background: colors.primary },
+                    },
+                    "G4"
+                  ),
+                  React.createElement(
+                    "div",
+                    null,
+                    React.createElement("div", { className: "text-sm font-bold text-white" }, "G4 Mortgage"),
+                    React.createElement("div", { className: "text-xs text-slate-400" }, "Home loans made simple")
+                  )
+                ),
+                React.createElement(
+                  "p",
+                  { className: "mt-3 text-xs text-slate-400" },
+                  "Fast responses, detailed files, and clean underwriting. Serving clients nationwide."
+                )
+              ),
+              React.createElement(
+                "div",
+                null,
+                React.createElement(
+                  "h4",
+                  { className: "text-xs font-semibold uppercase tracking-wide text-slate-400" },
+                  "Resources"
+                ),
+                React.createElement(
+                  "ul",
+                  { className: "mt-3 space-y-2 text-sm" },
+                  React.createElement(
+                    "li",
+                    null,
+                    React.createElement(
+                      "a",
+                      {
+                        href: "#",
+                        className: "hover:text-white",
+                        onClick: (e) => {
+                          e.preventDefault();
+                          go(Page.home);
+                          setTimeout(() => {
+                            document.getElementById("programs")?.scrollIntoView({ behavior: "smooth" });
+                          }, 0);
+                        },
+                      },
+                      "Loan programs"
+                    )
+                  ),
+                  React.createElement(
+                    "li",
+                    null,
+                    React.createElement(
+                      "a",
+                      {
+                        href: "#",
+                        className: "hover:text-white",
+                        onClick: (e) => {
+                          e.preventDefault();
+                          go(Page.va);
+                        },
+                      },
+                      "VA loans"
+                    )
+                  ),
+                  React.createElement(
+                    "li",
+                    null,
+                    React.createElement(
+                      "a",
+                      { href: ZILLOW_PROFILE_URL, className: "hover:text-white", target: "_blank", rel: "noreferrer" },
+                      "Zillow profile"
+                    )
+                  )
+                )
+              ),
+              React.createElement(
+                "div",
+                null,
+                React.createElement(
+                  "h4",
+                  { className: "text-xs font-semibold uppercase tracking-wide text-slate-400" },
+                  "Get started"
+                ),
+                React.createElement(
+                  "ul",
+                  { className: "mt-3 space-y-2 text-sm" },
+                  React.createElement("li", null, React.createElement("a", { href: INQUIRY_URL, className: "hover:text-white" }, "Start inquiry")),
+                  React.createElement("li", null, React.createElement("a", { href: APPLY_URL, className: "hover:text-white" }, "Apply now"))
+                )
+              ),
+              React.createElement(
+                "div",
+                null,
+                React.createElement(
+                  "h4",
+                  { className: "text-xs font-semibold uppercase tracking-wide text-slate-400" },
+                  "Contact us"
+                ),
+                React.createElement(
+                  "div",
+                  { className: "mt-3 space-y-2 text-xs text-slate-200" },
+                  React.createElement("p", { className: "flex items-center gap-2" }, "📞 (425) 750-1731"),
+                  React.createElement("p", { className: "flex items-center gap-2" }, "✉️ jleslie@barrettfinancial.com"),
+                  React.createElement(
+                    "p",
+                    { className: "flex items-start gap-2" },
+                    "📍 ",
+                    React.createElement("span", null, "1120 Pacific Ave, Suite 205", React.createElement("br"), "Tacoma, WA 98402")
+                  )
+                )
+              )
+            ),
+            React.createElement(
+              "div",
+              { className: "mt-10 border-t border-slate-800 pt-6 text-xs text-slate-400" },
+              React.createElement(
+                "div",
+                { className: "flex flex-col gap-2 md:flex-row md:items-center md:justify-between" },
+                React.createElement("p", null, `© ${new Date().getFullYear()} G4 Mortgage. All rights reserved.`),
+                React.createElement("p", null, "Joe Leslie · Mortgage Loan Originator · NMLS# 1998387 · Equal Housing Opportunity")
+              ),
+              React.createElement(
+                "p",
+                { className: "mt-2" },
+                "This is not a commitment to lend. Information is subject to change. Rates and programs may vary based on credit, income, property type, and other factors."
+              )
+            )
+          )
+        );
+      }
+
+      function PurchaseCalculator() {
+        const [price, setPrice] = useState(600000);
+        const [downPct, setDownPct] = useState(20);
+        const [rate, setRate] = useState(6.5);
+        const [years, setYears] = useState(30);
+
+        const loanAmount = useMemo(() => {
+          const p = Number(price || 0);
+          const d = Number(downPct || 0) / 100;
+          return Math.max(0, p * (1 - d));
+        }, [price, downPct]);
+
+        const monthlyPI = useMemo(() => {
+          return calcMonthlyPI(loanAmount, Number(rate || 0), Number(years || 0));
+        }, [loanAmount, rate, years]);
+
+        return React.createElement(
+          "div",
+          { className: "rounded-2xl border border-slate-200 bg-white p-6 shadow-sm" },
+          React.createElement("h3", { className: "text-lg font-semibold text-slate-900" }, "Quick Payment Estimate"),
+          React.createElement("p", { className: "mt-1 text-xs text-slate-600" }, "Principal & interest only – taxes, insurance, and MI not included."),
+          React.createElement(
+            "div",
+            { className: "mt-4 grid grid-cols-1 gap-4 md:grid-cols-2" },
+            React.createElement(
+              "div",
+              { className: "space-y-3" },
+              fieldMoney("Home price", price, setPrice),
+              fieldPercent("Down payment %", downPct, setDownPct),
+              React.createElement(
+                "div",
+                { className: "grid grid-cols-2 gap-3" },
+                fieldPercent("Rate %", rate, setRate, 0.01),
+                fieldNumber("Term (years)", years, setYears, 1)
+              )
+            ),
+            React.createElement(
+              "div",
+              { className: "space-y-3 rounded-2xl bg-slate-50 p-4 text-sm" },
+              row("Estimated loan amount", `$${formatMoney0(loanAmount)}`),
+              row("Est. principal & interest", `$${formatMoney0(monthlyPI)}/mo`, true),
+              React.createElement(
+                "p",
+                { className: "mt-2 text-xs text-slate-500" },
+                "Illustration only—doesn’t include taxes, insurance, HOA, or MI."
+              ),
+              React.createElement(
+                "div",
+                { className: "mt-3 flex flex-wrap gap-2" },
+                React.createElement(
+                  "a",
+                  {
+                    href: INQUIRY_URL,
+                    className:
+                      "inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-900",
+                  },
+                  "Request custom scenario →"
+                ),
+                React.createElement(
+                  "a",
+                  {
+                    href: APPLY_URL,
+                    className: "inline-flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-semibold text-white",
+                    style: { background: colors.primary },
+                  },
+                  "Start full application"
+                )
+              )
+            )
+          )
+        );
+      }
+
+      function RefiCalculator({ defaultRate = 5.625 }) {
+        const [balance, setBalance] = useState(420000);
+        const [years, setYears] = useState(30);
+        const [rate, setRate] = useState(defaultRate);
+
+        useEffect(() => setRate(defaultRate), [defaultRate]);
+
+        const monthlyPI = useMemo(() => {
+          return calcMonthlyPI(Number(balance || 0), Number(rate || 0), Number(years || 0));
+        }, [balance, rate, years]);
+
+        return React.createElement(
+          "div",
+          { className: "rounded-2xl border border-slate-200 bg-white p-6 shadow-sm" },
+          React.createElement("h3", { className: "text-lg font-semibold text-slate-900" }, "Refinance Payment Estimate"),
+          React.createElement("p", { className: "mt-1 text-xs text-slate-600" }, "Principal & interest only."),
+          React.createElement(
+            "div",
+            { className: "mt-4 grid grid-cols-1 gap-4 md:grid-cols-2" },
+            React.createElement(
+              "div",
+              { className: "space-y-3" },
+              fieldMoney("Current loan balance", balance, setBalance),
+              React.createElement(
+                "div",
+                { className: "grid grid-cols-2 gap-3" },
+                fieldPercent("Rate %", rate, setRate, 0.001),
+                fieldNumber("New term (years)", years, setYears, 1)
+              ),
+              React.createElement(
+                "div",
+                { className: "rounded-2xl border border-slate-200 bg-slate-50 p-4" },
+                row("Rate used", `${Number(rate).toFixed(3)}%`)
+              )
+            ),
+            React.createElement(
+              "div",
+              { className: "space-y-3 rounded-2xl bg-slate-50 p-4 text-sm" },
+              row("Loan amount", `$${formatMoney0(balance)}`),
+              row("Est. principal & interest", `$${formatMoney0(monthlyPI)}/mo`, true),
+              React.createElement(
+                "div",
+                { className: "mt-3 flex flex-wrap gap-2" },
+                React.createElement(
+                  "a",
+                  {
+                    href: INQUIRY_URL,
+                    className:
+                      "inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-900",
+                  },
+                  "Request scenario →"
+                ),
+                React.createElement(
+                  "a",
+                  {
+                    href: APPLY_URL,
+                    className: "inline-flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-semibold text-white",
+                    style: { background: colors.primary },
+                  },
+                  "Apply Now"
+                )
+              )
+            )
+          )
+        );
+      }
+
+      function row(label, value, big = false) {
+        return React.createElement(
+          "div",
+          { className: "flex items-center justify-between" },
+          React.createElement("span", { className: "text-slate-600" }, label),
+          React.createElement(
+            "span",
+            { className: (big ? "text-lg " : "") + "font-semibold text-slate-900" },
+            value
+          )
+        );
+      }
+
+      function fieldMoney(label, value, setValue) {
+        return React.createElement(
+          "div",
+          null,
+          React.createElement("label", { className: "mb-1 block text-xs font-medium text-slate-700" }, label),
+          React.createElement("input", {
+            type: "number",
+            className: "w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:ring-2",
+            value,
+            min: 0,
+            onChange: (e) => setValue(Number(e.target.value)),
+          })
+        );
+      }
+
+      function fieldNumber(label, value, setValue, min = 0) {
+        return React.createElement(
+          "div",
+          null,
+          React.createElement("label", { className: "mb-1 block text-xs font-medium text-slate-700" }, label),
+          React.createElement("input", {
+            type: "number",
+            className: "w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:ring-2",
+            value,
+            min,
+            onChange: (e) => setValue(Number(e.target.value)),
+          })
+        );
+      }
+
+      function fieldPercent(label, value, setValue, step = 0.01) {
+        return React.createElement(
+          "div",
+          null,
+          React.createElement("label", { className: "mb-1 block text-xs font-medium text-slate-700" }, label),
+          React.createElement("input", {
+            type: "number",
+            step,
+            className: "w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:ring-2",
+            value,
+            min: 0,
+            onChange: (e) => setValue(Number(e.target.value)),
+          })
+        );
+      }
+
+      function ReviewsWidget() {
+        const ref = useRef(null);
+
+        useEffect(() => {
+          if (ref.current) ref.current.innerHTML = ELFSIGHT_WIDGET_DIV;
+
+          const existing = document.querySelector(`script[src="${ELFSIGHT_SCRIPT_SRC}"]`);
+          if (!existing) {
+            const s = document.createElement("script");
+            s.src = ELFSIGHT_SCRIPT_SRC;
+            s.async = true;
+            document.body.appendChild(s);
+          }
+        }, []);
+
+        return React.createElement("div", {
+          ref,
+          className: "mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm",
+          style: { minHeight: 200 },
+        });
+      }
+
+      function HomePage() {
+        return React.createElement(
+          React.Fragment,
+          null,
+          // Hero
+          React.createElement(
+            "section",
+            { style: { background: colors.bg }, className: "relative overflow-hidden" },
+            React.createElement(
+              "div",
+              { className: "mx-auto grid max-w-7xl items-center gap-10 px-4 py-16 md:grid-cols-2 md:py-20" },
+              React.createElement(
+                "div",
+                null,
+                React.createElement(Badge, null, "49 States · Purchase • Refi • Investment"),
+                React.createElement(
+                  "h1",
+                  { className: "mt-4 text-3xl font-extrabold leading-tight md:text-5xl", style: { color: colors.accent } },
+                  "Clear Guidance.",
+                  React.createElement("br", { className: "hidden sm:block" }),
+                  " Hands-on service."
+                ),
+                React.createElement(
+                  "p",
+                  { className: "mt-4 max-w-xl text-sm text-slate-700" },
+                  "No public rate tables. Tell us your scenario and we’ll build options around your goals."
+                ),
+                React.createElement(
+                  "div",
+                  { className: "mt-6 flex flex-wrap items-center gap-3" },
+                  React.createElement(
+                    "a",
+                    {
+                      href: INQUIRY_URL,
+                      className:
+                        "inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-white shadow-sm",
+                      style: { background: colors.primary },
+                    },
+                    "Start Inquiry →"
+                  ),
+                  React.createElement(
+                    "a",
+                    {
+                      href: APPLY_URL,
+                      className:
+                        "inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-900",
+                    },
+                    "Apply Now"
+                  )
+                )
+              ),
+              React.createElement(
+                "div",
+                null,
+                React.createElement(
+                  "div",
+                  { className: "rounded-2xl border border-slate-200 bg-white p-6 shadow-sm" },
+                  React.createElement("h3", { className: "text-lg font-semibold" }, "Quick Scenario Request"),
+                  React.createElement(
+                    "p",
+                    { className: "mt-2 text-sm text-slate-700" },
+                    "Send a quick inquiry for custom options, or start the full application if you’re ready."
+                  ),
+                  React.createElement(
+                    "div",
+                    { className: "mt-4 grid grid-cols-1 gap-3" },
+                    React.createElement(
+                      "a",
+                      {
+                        href: INQUIRY_URL,
+                        className:
+                          "inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-semibold text-white shadow-sm",
+                        style: { background: colors.primary },
+                      },
+                      "Start Inquiry"
+                    ),
+                    React.createElement(
+                      "a",
+                      {
+                        href: APPLY_URL,
+                        className:
+                          "inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-900",
+                      },
+                      "Apply Now"
+                    )
+                  ),
+                  React.createElement(
+                    "p",
+                    { className: "mt-3 text-xs text-slate-500" },
+                    "Pricing depends on credit, LTV, property type, mortgage insurance, and more."
+                  )
+                )
+              )
+            )
+          ),
+
+          // Programs
+          React.createElement(
+            "section",
+            { id: "programs", className: "mx-auto max-w-7xl px-4 py-16" },
+            React.createElement(Badge, null, "Loan Programs"),
+            React.createElement(
+              "h2",
+              { className: "mt-3 text-2xl font-extrabold md:text-3xl", style: { color: colors.accent } },
+              "Options for every borrower"
+            ),
+            React.createElement(
+              "p",
+              { className: "mt-2 max-w-2xl text-sm text-slate-700" },
+              "From first-time buyers to seasoned investors, we’ll match the right program for your goals."
+            ),
+            React.createElement(
+              "div",
+              { className: "mt-6 grid grid-cols-1 gap-4 md:grid-cols-3" },
+              card("Conventional 3%+ down", ["Great for strong credit", "Low MI options", "Fixed & ARMs"]),
+              card("FHA 3.5% down", ["Flexible credit & DTI", "Assumable loans", "Streamline refi"]),
+              card("VA 0% down", ["No MI", "Flexible guidelines", "Assumable"])
+            )
+          ),
+
+          // Calculator
+          React.createElement(
+            "section",
+            { id: "calculator", className: "mx-auto max-w-7xl px-4 py-16" },
+            React.createElement(Badge, null, "Mortgage Calculator"),
+            React.createElement(
+              "h2",
+              { className: "mt-3 text-2xl font-extrabold md:text-3xl", style: { color: colors.accent } },
+              "Estimate a payment, then get it dialed in"
+            ),
+            React.createElement(
+              "p",
+              { className: "mt-2 max-w-2xl text-sm text-slate-700" },
+              "Ballpark only—final numbers depend on taxes, insurance, HOA, MI, credit, and property details."
+            ),
+            React.createElement("div", { className: "mt-6" }, React.createElement(PurchaseCalculator))
+          ),
+
+          // Reviews
+          React.createElement(
+            "section",
+            { id: "reviews", className: "border-y border-slate-200", style: { background: colors.bg } },
+            React.createElement(
+              "div",
+              { className: "mx-auto max-w-7xl px-4 py-16" },
+              React.createElement(Badge, null, "Reviews"),
+              React.createElement(
+                "h2",
+                { className: "mt-3 text-2xl font-extrabold md:text-3xl", style: { color: colors.accent } },
+                "Verified Zillow feedback"
+              ),
+              React.createElement(
+                "p",
+                { className: "mt-2 text-sm text-slate-600" },
+                `${ZILLOW_RATING_AVG.toFixed(1)} average · ${ZILLOW_REVIEW_COUNT}+ reviews · `,
+                React.createElement(
+                  "a",
+                  { href: ZILLOW_PROFILE_URL, target: "_blank", rel: "noreferrer", className: "font-semibold text-slate-700 hover:text-slate-900" },
+                  "View on Zillow"
+                )
+              ),
+              React.createElement(ReviewsWidget)
+            )
+          )
+        );
+      }
+
+      function VALoansPage() {
+        return React.createElement(
+          React.Fragment,
+          null,
+          React.createElement(
+            "section",
+            { style: { background: colors.bg }, className: "border-b border-slate-200" },
+            React.createElement(
+              "div",
+              { className: "mx-auto max-w-7xl px-4 py-14" },
+              React.createElement(Badge, null, "VA Loans"),
+              React.createElement(
+                "h1",
+                { className: "mt-3 text-3xl font-extrabold md:text-5xl", style: { color: colors.accent } },
+                "VA Purchase & VA Refinance Options"
+              ),
+              React.createElement(
+                "p",
+                { className: "mt-3 max-w-2xl text-sm text-slate-700" },
+                "Built for eligible veterans and service members. We’ll help you choose the right VA option and handle the file end-to-end."
+              ),
+              React.createElement(
+                "div",
+                { className: "mt-6 flex flex-wrap gap-3" },
+                React.createElement(
+                  "a",
+                  {
+                    href: INQUIRY_URL,
+                    className:
+                      "inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-white",
+                    style: { background: colors.primary },
+                  },
+                  "Start VA Inquiry"
+                ),
+                React.createElement(
+                  "a",
+                  {
+                    href: APPLY_URL,
+                    className:
+                      "inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-900",
+                  },
+                  "Apply Now"
+                ),
+                React.createElement(
+                  "a",
+                  {
+                    href: "#",
+                    onClick: (e) => {
+                      e.preventDefault();
+                      go(Page.home);
+                    },
+                    className:
+                      "inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-900",
+                  },
+                  "Back to Home"
+                )
+              )
+            )
+          ),
+          React.createElement(
+            "section",
+            { className: "mx-auto max-w-7xl px-4 py-14" },
+            React.createElement(Badge, null, "VA Refinance Calculator"),
+            React.createElement(
+              "h2",
+              { className: "mt-3 text-2xl font-extrabold md:text-3xl", style: { color: colors.accent } },
+              "Refinance estimate (default 5.625%)"
+            ),
+            React.createElement(
+              "p",
+              { className: "mt-2 max-w-2xl text-sm text-slate-700" },
+              "Principal & interest estimate for refinance (not purchase). You can edit the rate."
+            ),
+            React.createElement("div", { className: "mt-6" }, React.createElement(RefiCalculator, { defaultRate: 5.625 }))
+          )
+        );
+      }
+
+      function card(title, bullets) {
+        return React.createElement(
+          "div",
+          { className: "rounded-2xl border border-slate-200 bg-white p-6 shadow-sm" },
+          React.createElement("h3", { className: "text-lg font-semibold text-slate-900" }, title),
+          React.createElement(
+            "ul",
+            { className: "mt-3 space-y-2 text-sm text-slate-700" },
+            bullets.map((b, i) =>
+              React.createElement("li", { key: i, className: "flex items-start gap-2" }, "✅ ", React.createElement("span", null, b))
+            )
+          )
+        );
+      }
+
+      function MortgageSite() {
+        const [page, setPage] = useState(Page.home);
+
+        useEffect(() => {
+          const sync = () => setPage(currentPageFromHash());
+          sync();
+          window.addEventListener("hashchange", sync);
+          return () => window.removeEventListener("hashchange", sync);
+        }, []);
+
+        return React.createElement(
+          "div",
+          { className: "min-h-screen bg-white font-sans text-slate-900" },
+          React.createElement(SiteHeader, { page }),
+          page === Page.va ? React.createElement(VALoansPage) : React.createElement(HomePage),
+          React.createElement(Footer)
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(MortgageSite));
+    </script>
+  </body>
+</html>
