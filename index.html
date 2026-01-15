@@ -4,701 +4,197 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>G4 Mortgage</title>
-  <meta name="description" content="G4 Mortgage — Home loans made simple. Purchase, refinance, investment.">
-  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+
   <style>
     :root{
       --primary:#0B3D91;
       --accent:#082C5C;
-      --bg:#F2F6FF;
-    }
-    html{scroll-behavior:smooth;}
-  </style>
-</head>
-
-<body class="min-h-screen bg-white font-sans text-slate-900">
-  <script>
-    // Constants
-    const APPLY_URL = "https://181106.my1003app.com/1998387/register?time=1721681398525";
-    const INQUIRY_URL = "https://181106.my1003app.com/1998387/inquiry?time=1725987208470";
-    const ZILLOW_PROFILE_URL = "https://www.zillow.com/profile/Joe%20Leslie";
-    const ELFSIGHT_WIDGET_DIV = '<div class="elfsight-app-c67759cc-4860-461d-a2c7-689b09adffb7" data-elfsight-app-lazy></div>';
-    const ELFSIGHT_SCRIPT_SRC = "https://elfsightcdn.com/platform.js";
-    const ZILLOW_RATING_AVG = 4.9;
-    const ZILLOW_REVIEW_COUNT = 137;
-  </script>
-
-  <!-- Header -->
-  <header class="sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur">
-    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
-      <a href="#home" class="flex items-center gap-2">
-        <div class="grid h-9 w-9 place-items-center rounded-xl text-sm font-bold text-white" style="background:var(--primary)">G4</div>
-        <div class="leading-tight">
-          <div class="text-sm font-bold" style="color:var(--accent)">G4 Mortgage</div>
-          <div class="text-xs text-slate-500">Home loans made simple</div>
-        </div>
-      </a>
-
-      <nav class="hidden items-center gap-6 md:flex">
-        <a href="#programs" class="text-sm font-semibold text-slate-700 hover:text-slate-900">Loan Programs</a>
-        <a href="#va" class="text-sm font-semibold text-slate-700 hover:text-slate-900">VA Loans</a>
-        <a id="navApply" href="#" class="text-sm font-semibold text-slate-700 hover:text-slate-900">Apply</a>
-        <a id="navInquiry" href="#" class="text-sm font-semibold text-slate-700 hover:text-slate-900">Inquiry</a>
-      </nav>
-
-      <div class="flex items-center gap-3">
-        <a id="ctaApplyTop"
-           href="#"
-           class="hidden items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-white shadow-sm md:inline-flex"
-           style="background:var(--primary)">Apply Now</a>
-      </div>
-    </div>
-  </header>
-
-  <!-- HOME PAGE -->
-  <main id="page-home">
-    <!-- Hero -->
-    <section id="home" class="relative overflow-hidden" style="background:var(--bg)">
-      <div class="mx-auto grid max-w-7xl items-center gap-10 px-4 py-16 md:grid-cols-2 md:py-20">
-        <div>
-          <span class="inline-flex items-center rounded-full border border-slate-200 bg-white/70 px-3 py-1 text-xs font-semibold tracking-wide text-slate-600">
-            49 States · Purchase • Refi • Investment
-          </span>
-
-          <h1 class="mt-4 text-3xl font-extrabold leading-tight md:text-5xl" style="color:var(--accent)">
-            Clear Guidance.<br class="hidden sm:block" /> Hands-on service.
-          </h1>
-
-          <p class="mt-4 max-w-xl text-sm text-slate-700">
-            No public rate tables. Tell us your scenario and we’ll build options around your goals.
-          </p>
-
-          <div class="mt-6 flex flex-wrap items-center gap-3">
-            <a id="heroInquiry" href="#"
-               class="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-white shadow-sm"
-               style="background:var(--primary)">
-              Start Inquiry <span aria-hidden="true">→</span>
-            </a>
-            <a id="heroApply" href="#"
-               class="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-900">
-              Apply Now
-            </a>
-          </div>
-
-          <div class="mt-6 flex flex-wrap items-center gap-4 text-xs text-slate-600">
-            <span class="inline-flex items-center gap-2">
-              ✅ 500+ transactions
-            </span>
-            <span class="inline-flex items-center gap-2">
-              🏠 Purchase, Refi, Cash-out
-            </span>
-            <span class="inline-flex items-center gap-2">
-              🏢 Primary • Second • Investment
-            </span>
-          </div>
-        </div>
-
-        <div>
-          <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-            <div class="flex items-center gap-3">
-              <div class="rounded-xl p-2" style="background:rgba(124, 58, 237, 0.12)">
-                <div class="h-6 w-6 rounded" style="background:rgba(124,58,237,0.35)"></div>
-              </div>
-              <h3 class="text-lg font-semibold">Quick Scenario Request</h3>
-            </div>
-            <p class="mt-2 text-sm text-slate-700">
-              Send a quick inquiry for custom options, or start the full application if you’re ready.
-            </p>
-            <div class="mt-4 grid grid-cols-1 gap-3">
-              <a id="boxInquiry" href="#"
-                 class="inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-white shadow-sm"
-                 style="background:var(--primary)">Start Inquiry →</a>
-              <a id="boxApply" href="#"
-                 class="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-900">Apply Now</a>
-            </div>
-            <p class="mt-3 text-xs text-slate-500">
-              Pricing depends on credit, LTV, property type, mortgage insurance, and more.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Programs -->
-    <section id="programs" class="mx-auto max-w-7xl px-4 py-16">
-      <div class="mb-4 flex items-center justify-between">
-        <div>
-          <span class="inline-flex items-center rounded-full border border-slate-200 bg-white/70 px-3 py-1 text-xs font-semibold tracking-wide text-slate-600">Loan Programs</span>
-          <h2 class="mt-3 text-2xl font-extrabold md:text-3xl" style="color:var(--accent)">Options for every borrower</h2>
-          <p class="mt-2 max-w-2xl text-sm text-slate-700">
-            From first-time buyers to seasoned investors, we’ll match the right program for your goals.
-          </p>
-        </div>
-        <a href="#contact"
-           class="hidden items-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-900 md:inline-flex">
-          Speak with a specialist
-        </a>
-      </div>
-
-      <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h3 class="text-lg font-semibold text-slate-900">Conventional 3%+ down</h3>
-          <ul class="mt-3 space-y-2 text-sm text-slate-700">
-            <li>• Great for strong credit</li><li>• Low MI options</li><li>• Fixed & ARMs</li>
-          </ul>
-        </div>
-        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h3 class="text-lg font-semibold text-slate-900">FHA 3.5% down</h3>
-          <ul class="mt-3 space-y-2 text-sm text-slate-700">
-            <li>• Flexible credit & DTI</li><li>• Assumable loans</li><li>• Streamline refi</li>
-          </ul>
-        </div>
-        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h3 class="text-lg font-semibold text-slate-900">VA 0% down</h3>
-          <ul class="mt-3 space-y-2 text-sm text-slate-700">
-            <li>• No MI</li><li>• Flexible guidelines</li><li>• Assumable</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- Calculator (Purchase) -->
-    <section id="calculator" class="mx-auto max-w-7xl px-4 py-16">
-      <div class="mb-4">
-        <span class="inline-flex items-center rounded-full border border-slate-200 bg-white/70 px-3 py-1 text-xs font-semibold tracking-wide text-slate-600">Mortgage Calculator</span>
-        <h2 class="mt-3 text-2xl font-extrabold md:text-3xl" style="color:var(--accent)">Estimate a payment, then get it dialed in</h2>
-        <p class="mt-2 max-w-2xl text-sm text-slate-700">
-          Ballpark only—final numbers depend on taxes, insurance, HOA, MI, credit, and property details.
-        </p>
-      </div>
-
-      <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <div class="mt-2 grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div class="space-y-3">
-            <div>
-              <label class="mb-1 block text-xs font-medium text-slate-700">Home price</label>
-              <div class="relative">
-                <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">$</span>
-                <input id="price" type="number" class="w-full rounded-xl border border-slate-300 bg-white px-6 py-2 text-sm outline-none focus:ring-2" value="600000" min="0" />
-              </div>
-            </div>
-
-            <div>
-              <label class="mb-1 block text-xs font-medium text-slate-700">Down payment %</label>
-              <div class="relative">
-                <input id="downPct" type="number" class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:ring-2" value="20" min="0" max="100" />
-                <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">%</span>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-3">
-              <div>
-                <label class="mb-1 block text-xs font-medium text-slate-700">Rate %</label>
-                <div class="relative">
-                  <input id="rate" type="number" step="0.01" class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:ring-2" value="6.5" min="0" />
-                  <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">%</span>
-                </div>
-              </div>
-              <div>
-                <label class="mb-1 block text-xs font-medium text-slate-700">Term (years)</label>
-                <input id="years" type="number" class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:ring-2" value="30" min="1" />
-              </div>
-            </div>
-          </div>
-
-          <div class="space-y-3 rounded-2xl bg-slate-50 p-4 text-sm">
-            <div class="flex items-center justify-between">
-              <span class="text-slate-600">Estimated loan amount</span>
-              <span id="loanAmountOut" class="font-semibold text-slate-900">$0</span>
-            </div>
-            <div class="flex items-center justify-between">
-              <span class="text-slate-600">Est. principal &amp; interest</span>
-              <span id="piOut" class="text-lg font-semibold text-slate-900">$0/mo</span>
-            </div>
-            <div class="mt-3 flex flex-wrap gap-2">
-              <a id="calcInquiry" href="#"
-                 class="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-900">
-                Request custom scenario →
-              </a>
-              <a id="calcApply" href="#"
-                 class="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-semibold text-white"
-                 style="background:var(--primary)">
-                Start full application
-              </a>
-            </div>
-            <p class="mt-2 text-xs text-slate-500">
-              P&amp;I only. Taxes, insurance, HOA, and MI not included.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Reviews -->
-    <section id="reviews" class="border-y border-slate-200" style="background:var(--bg)">
-      <div class="mx-auto max-w-7xl px-4 py-16">
-        <span class="inline-flex items-center rounded-full border border-slate-200 bg-white/70 px-3 py-1 text-xs font-semibold tracking-wide text-slate-600">Reviews</span>
-        <h2 class="mt-3 text-2xl font-extrabold md:text-3xl" style="color:var(--accent)">Verified Zillow feedback</h2>
-
-        <div class="mt-2 flex flex-wrap items-center gap-2">
-          <span class="text-sm text-slate-600">
-            <strong id="zillowMeta"></strong>
-          </span>
-          <a id="zillowLink" href="#" target="_blank" rel="noreferrer"
-             class="inline-flex items-center gap-1 text-sm font-semibold text-slate-700 hover:text-slate-900">
-            View on Zillow ↗
-          </a>
-        </div>
-
-        <p class="mt-2 max-w-2xl text-sm text-slate-700">
-          Reviews below are displayed via your Elfsight widget.
-        </p>
-
-        <div id="elfsightWrap"
-             class="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
-             style="min-height:200px">
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact -->
-    <section id="contact" class="mx-auto max-w-7xl px-4 py-16">
-      <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-        <div>
-          <span class="inline-flex items-center rounded-full border border-slate-200 bg-white/70 px-3 py-1 text-xs font-semibold tracking-wide text-slate-600">Get in touch</span>
-          <h2 class="mt-3 text-2xl font-extrabold md:text-3xl" style="color:var(--accent)">Talk to a loan officer</h2>
-          <p class="mt-2 max-w-xl text-sm text-slate-700">
-            Prefer a quick text/call? Or send an inquiry form with your scenario.
-          </p>
-
-          <div class="mt-4 space-y-2 text-sm text-slate-700">
-            <div>📞 (425) 750-1731</div>
-            <div>✉️ jleslie@barrettfinancial.com</div>
-            <div>📍 1120 Pacific Ave, Suite 205, Tacoma, WA 98402</div>
-          </div>
-
-          <div class="mt-5 flex flex-wrap gap-3">
-            <a id="contactApply" href="#"
-               class="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-white"
-               style="background:var(--primary)">
-              Apply Now →
-            </a>
-            <a id="contactInquiry" href="#"
-               class="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-900">
-              Start Inquiry
-            </a>
-          </div>
-
-          <p class="mt-4 text-xs text-slate-500">
-            Not a commitment to lend. All loans subject to credit and underwriting approval.
-          </p>
-        </div>
-
-        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <form id="contactForm" class="space-y-4">
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <div>
-                <label class="mb-1 block text-sm font-medium text-slate-700">First name</label>
-                <input name="firstName" required class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 outline-none focus:ring-2"/>
-              </div>
-              <div>
-                <label class="mb-1 block text-sm font-medium text-slate-700">Last name</label>
-                <input name="lastName" required class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 outline-none focus:ring-2"/>
-              </div>
-              <div>
-                <label class="mb-1 block text-sm font-medium text-slate-700">Email</label>
-                <input name="email" type="email" required class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 outline-none focus:ring-2"/>
-              </div>
-              <div>
-                <label class="mb-1 block text-sm font-medium text-slate-700">Phone</label>
-                <input name="phone" type="tel" class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 outline-none focus:ring-2"/>
-              </div>
-            </div>
-            <div>
-              <label class="mb-1 block text-sm font-medium text-slate-700">How can we help?</label>
-              <textarea name="message" rows="4" class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 outline-none focus:ring-2"
-                        placeholder="Pre-approval, purchase, refinance, self-employed, VA, FHA, DSCR, ITIN, etc."></textarea>
-            </div>
-
-            <div class="flex flex-wrap items-center gap-3">
-              <button type="submit"
-                      class="inline-flex items-center gap-2 rounded-xl px-4 py-2 font-semibold text-white"
-                      style="background:var(--primary)">
-                Send Message →
-              </button>
-              <a id="formApply" href="#"
-                 class="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2 font-semibold text-slate-900">
-                Apply Now
-              </a>
-            </div>
-
-            <p class="text-xs text-slate-500">
-              By submitting, you agree to be contacted by phone, text, or email. This is not a commitment to lend.
-            </p>
-
-            <div id="formThanks" class="hidden text-center">
-              <h4 class="text-lg font-semibold text-slate-900">Thanks! 🎉</h4>
-              <p class="mt-1 text-sm text-slate-700">We’ll reach out shortly. If it’s urgent, click Apply Now for priority intake.</p>
-            </div>
-          </form>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- VA PAGE (same file, shown when URL hash is #va) -->
-  <main id="page-va" class="hidden">
-    <section class="border-b border-slate-200" style="background:var(--bg)">
-      <div class="mx-auto max-w-7xl px-4 py-14">
-        <span class="inline-flex items-center rounded-full border border-slate-200 bg-white/70 px-3 py-1 text-xs font-semibold tracking-wide text-slate-600">VA Loans</span>
-        <h1 class="mt-3 text-3xl font-extrabold md:text-5xl" style="color:var(--accent)">
-          VA Purchase &amp; VA Refinance Options
-        </h1>
-        <p class="mt-3 max-w-2xl text-sm text-slate-700">
-          Built for eligible veterans and service members. We’ll help you choose the right VA option and handle the file end-to-end.
-        </p>
-
-        <div class="mt-6 flex flex-wrap gap-3">
-          <a id="vaInquiry" href="#"
-             class="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-white"
-             style="background:var(--primary)">
-            Start VA Inquiry →
-          </a>
-          <a id="vaApply" href="#"
-             class="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-900">
-            Apply Now
-          </a>
-          <a href="#home"
-             class="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-900"
-             onclick="location.hash='home'; return false;">
-            Back to Home
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <section class="mx-auto max-w-7xl px-4 py-14">
-      <div class="mb-4">
-        <span class="inline-flex items-center rounded-full border border-slate-200 bg-white/70 px-3 py-1 text-xs font-semibold tracking-wide text-slate-600">VA Programs</span>
-        <h2 class="mt-3 text-2xl font-extrabold md:text-3xl" style="color:var(--accent)">Choose the right VA path</h2>
-        <p class="mt-2 max-w-2xl text-sm text-slate-700">Here’s a clean breakdown of the VA options you asked for.</p>
-      </div>
-
-      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h3 class="text-lg font-semibold text-slate-900">VA IRRRL (Streamline Refi)</h3>
-          <ul class="mt-3 space-y-2 text-sm text-slate-700">
-            <li>• Fast refi for existing VA loans</li>
-            <li>• Often reduced documentation vs full refi</li>
-            <li>• Designed to lower rate/payment or move to fixed</li>
-          </ul>
-        </div>
-
-        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h3 class="text-lg font-semibold text-slate-900">VA Type 1 Refinance</h3>
-          <ul class="mt-3 space-y-2 text-sm text-slate-700">
-            <li>• Great when you have a VA loan and need more flexibility</li>
-            <li>• Can be used to change term or structure</li>
-            <li>• Scenario-based: we’ll advise best path</li>
-          </ul>
-        </div>
-
-        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h3 class="text-lg font-semibold text-slate-900">VA Type 2 Refinance</h3>
-          <ul class="mt-3 space-y-2 text-sm text-slate-700">
-            <li>• For more complex refinance goals</li>
-            <li>• Potentially cash-out / consolidation scenarios</li>
-            <li>• We’ll map it to entitlement, value, and credit</li>
-          </ul>
-        </div>
-
-        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h3 class="text-lg font-semibold text-slate-900">VA Purchase</h3>
-          <ul class="mt-3 space-y-2 text-sm text-slate-700">
-            <li>• 0% down for eligible buyers</li>
-            <li>• No monthly mortgage insurance</li>
-            <li>• Strong option for primary residence purchases</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section class="border-y border-slate-200" style="background:var(--bg)">
-      <div class="mx-auto max-w-7xl px-4 py-14">
-        <div class="mb-4">
-          <span class="inline-flex items-center rounded-full border border-slate-200 bg-white/70 px-3 py-1 text-xs font-semibold tracking-wide text-slate-600">VA Refinance Calculator</span>
-          <h2 class="mt-3 text-2xl font-extrabold md:text-3xl" style="color:var(--accent)">Refinance estimate (default 5.625%)</h2>
-          <p class="mt-2 max-w-2xl text-sm text-slate-700">Principal &amp; interest estimate for refinance (not purchase). You can edit the rate.</p>
-        </div>
-
-        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <div class="mt-2 grid grid-cols-1 gap-4 md:grid-cols-2">
-            <div class="space-y-3">
-              <div>
-                <label class="mb-1 block text-xs font-medium text-slate-700">Current loan balance</label>
-                <div class="relative">
-                  <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">$</span>
-                  <input id="vaBalance" type="number" class="w-full rounded-xl border border-slate-300 bg-white px-6 py-2 text-sm outline-none focus:ring-2" value="420000" min="0" />
-                </div>
-              </div>
-
-              <div class="grid grid-cols-2 gap-3">
-                <div>
-                  <label class="mb-1 block text-xs font-medium text-slate-700">Rate %</label>
-                  <div class="relative">
-                    <input id="vaRate" type="number" step="0.001" class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:ring-2" value="5.625" min="0" />
-                    <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">%</span>
-                  </div>
-                </div>
-
-                <div>
-                  <label class="mb-1 block text-xs font-medium text-slate-700">New term (years)</label>
-                  <input id="vaYears" type="number" class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:ring-2" value="30" min="1" />
-                </div>
-              </div>
-
-              <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                <div class="flex items-center justify-between text-sm">
-                  <span class="text-slate-600">Rate used</span>
-                  <span id="vaRateUsed" class="font-semibold text-slate-900">5.625%</span>
-                </div>
-                <p class="mt-2 text-xs text-slate-500">
-                  Marketing estimate only. Final rate, payment, and APR depend on credit, loan size, equity, program, and underwriting factors.
-                </p>
-              </div>
-            </div>
-
-            <div class="space-y-3 rounded-2xl bg-slate-50 p-4 text-sm">
-              <div class="flex items-center justify-between">
-                <span class="text-slate-600">Loan amount</span>
-                <span id="vaLoanOut" class="font-semibold text-slate-900">$0</span>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-slate-600">Est. principal &amp; interest</span>
-                <span id="vaPiOut" class="text-lg font-semibold text-slate-900">$0/mo</span>
-              </div>
-              <div class="mt-3 flex flex-wrap gap-2">
-                <a id="vaCalcInquiry" href="#"
-                   class="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-900">
-                  Request scenario →
-                </a>
-                <a id="vaCalcApply" href="#"
-                   class="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-semibold text-white"
-                   style="background:var(--primary)">
-                  Apply Now
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="mx-auto max-w-7xl px-4 py-14">
-      <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h3 class="text-lg font-semibold text-slate-900">Ready for a VA quote?</h3>
-        <p class="mt-2 text-sm text-slate-700">
-          Send your scenario and we’ll confirm eligibility and build the cleanest path (IRRRL vs Type 1/2 vs Purchase).
-        </p>
-        <div class="mt-4 flex flex-wrap gap-3">
-          <a id="vaQuoteInquiry" href="#"
-             class="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-white"
-             style="background:var(--primary)">
-            Start VA Inquiry →
-          </a>
-          <a id="vaQuoteApply" href="#"
-             class="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-900">
-            Apply Now
-          </a>
-        </div>
-        <p class="mt-3 text-xs text-slate-500">Not a commitment to lend. All loans subject to credit and underwriting approval.</p>
-      </div>
-    </section>
-  </main>
-
-  <!-- Footer (shared) -->
-  <footer class="border-t border-slate-200 bg-slate-900 text-slate-200">
-    <div class="mx-auto max-w-7xl px-4 py-12">
-      <div class="mt-10 border-t border-slate-800 pt-6 text-xs text-slate-400">
-        <div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-          <p>© <span id="year"></span> G4 Mortgage. All rights reserved.</p>
-          <p>Joe Leslie · Mortgage Loan Originator · NMLS# 1998387 · Equal Housing Opportunity</p>
-        </div>
-        <p class="mt-2">
-          This is not a commitment to lend. Information is subject to change. Rates and programs may vary based on credit,
-          income, property type, and other factors.
-        </p>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Scripts -->
-  <script>
-    // Helpers
-    function money0(x){
-      try { return (x||0).toLocaleString("en-US",{maximumFractionDigits:0}); }
-      catch(e){ return String(Math.round(x||0)); }
+      --bg:#EEF4FF;
+      --card:#ffffff;
+      --border:#D6E1F2;
+      --text:#0F172A;
+      --muted:#334155;
+      --muted2:#64748B;
+      --shadow: 0 16px 40px rgba(15,23,42,.08);
+      --shadow2: 0 10px 20px rgba(15,23,42,.08);
+      --r:16px;
     }
 
-    function calcMonthlyPI(loanAmount, annualRatePct, years){
-      const n = Math.max(0, Math.round((Number(years)||0)*12));
-      const L = Number(loanAmount)||0;
-      if (!L || !n) return 0;
-      const r = (Number(annualRatePct)||0)/100/12;
-      if (r === 0) return L/n;
-      const denom = 1 - Math.pow(1 + r, -n);
-      if (denom === 0) return 0;
-      return (L*r)/denom;
+    *{ box-sizing:border-box; }
+    html,body{ margin:0; padding:0; font-family:"Poppins",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; color:var(--text); background:#fff; }
+    a{ color:inherit; text-decoration:none; }
+    .wrap{ max-width:1200px; margin:0 auto; padding:0 18px; }
+
+    /* Header */
+    .header{
+      position:sticky; top:0; z-index:50;
+      background:rgba(255,255,255,.9);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid rgba(148,163,184,.35);
+    }
+    .header__row{ display:flex; align-items:center; justify-content:space-between; padding:12px 0; gap:14px; }
+    .brand{ display:flex; align-items:center; gap:10px; }
+    .brand__logo{
+      width:40px;height:40px;border-radius:12px;
+      display:grid;place-items:center;
+      font-weight:800; color:#fff;
+      background:var(--primary);
+    }
+    .brand__text b{ display:block; font-size:14px; color:var(--accent); }
+    .brand__text span{ display:block; font-size:12px; color:var(--muted2); margin-top:1px; }
+    .nav{ display:none; gap:18px; align-items:center; }
+    .nav a{ font-size:14px; font-weight:600; color:var(--muted); }
+    .nav a:hover{ color:var(--text); }
+    .ctaTop{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:10px 14px; border-radius:12px;
+      background:var(--primary); color:#fff;
+      font-weight:700; font-size:14px;
+      box-shadow:0 8px 18px rgba(11,61,145,.18);
     }
 
-    function setLinks(){
-      const set = (id, url) => { const el = document.getElementById(id); if(el) el.href = url; };
-      [
-        ["navApply", APPLY_URL], ["navInquiry", INQUIRY_URL], ["ctaApplyTop", APPLY_URL],
-        ["heroApply", APPLY_URL], ["heroInquiry", INQUIRY_URL],
-        ["boxApply", APPLY_URL], ["boxInquiry", INQUIRY_URL],
-        ["calcApply", APPLY_URL], ["calcInquiry", INQUIRY_URL],
-        ["contactApply", APPLY_URL], ["contactInquiry", INQUIRY_URL],
-        ["formApply", APPLY_URL],
-        ["vaApply", APPLY_URL], ["vaInquiry", INQUIRY_URL],
-        ["vaCalcApply", APPLY_URL], ["vaCalcInquiry", INQUIRY_URL],
-        ["vaQuoteApply", APPLY_URL], ["vaQuoteInquiry", INQUIRY_URL],
-      ].forEach(([id,url])=>set(id,url));
-
-      const z = document.getElementById("zillowLink");
-      if (z) z.href = ZILLOW_PROFILE_URL;
-
-      const meta = document.getElementById("zillowMeta");
-      if (meta) meta.textContent = `${ZILLOW_RATING_AVG.toFixed(1)} average · ${ZILLOW_REVIEW_COUNT}+ reviews`;
+    @media (min-width: 860px){
+      .nav{ display:flex; }
     }
 
-    function setYear(){
-      const y = String(new Date().getFullYear());
-      const el = document.getElementById("year");
-      if (el) el.textContent = y;
+    /* Buttons */
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding:10px 18px;
+      border-radius:12px;
+      font-size:14px; font-weight:700;
+      transition:transform .06s ease, filter .15s ease;
+      user-select:none;
+    }
+    .btn:active{ transform:translateY(1px); }
+    .btn--primary{ background:var(--primary); color:#fff; box-shadow:0 8px 18px rgba(11,61,145,.18); }
+    .btn--primary:hover{ filter:brightness(1.03); }
+    .btn--outline{ background:#fff; color:var(--text); border:1px solid #C9D7F0; box-shadow:0 2px 10px rgba(15,23,42,.04); }
+    .btn--full{ width:100%; }
+
+    /* Badge */
+    .badge{
+      display:inline-flex; align-items:center;
+      padding:8px 14px; border-radius:999px;
+      background:#fff; border:1px solid var(--border);
+      font-size:12px; font-weight:600; color:var(--muted);
+      box-shadow:0 1px 0 rgba(15,23,42,.03);
     }
 
-    function showPageFromHash(){
-      const hash = (location.hash || "").replace("#","").toLowerCase();
-      const isVA = (hash === "va");
-      document.getElementById("page-home").classList.toggle("hidden", isVA);
-      document.getElementById("page-va").classList.toggle("hidden", !isVA);
+    /* Hero */
+    .hero{ background:var(--bg); padding:56px 0; overflow:hidden; }
+    .hero__grid{
+      display:grid; gap:34px; align-items:center;
+      grid-template-columns: 1fr;
+    }
+    .hero__title{
+      margin:16px 0 0;
+      font-size:52px; line-height:1.02;
+      font-weight:800; letter-spacing:-0.02em;
+      color:var(--accent);
+    }
+    .hero__sub{ margin:14px 0 0; font-size:14px; color:var(--muted); max-width:560px; }
+    .hero__buttons{ margin-top:22px; display:flex; gap:14px; flex-wrap:wrap; }
+    .hero__proof{ margin-top:18px; display:flex; flex-wrap:wrap; gap:18px; font-size:12px; color:var(--muted); }
+    .proof{ display:flex; align-items:center; gap:8px; }
+    .proof span:first-child{ font-size:13px; }
 
-      // If not VA, allow normal in-page anchors
-      // If VA, ensure the page is visible (done above)
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--r);
+      padding:18px;
+      box-shadow:var(--shadow);
+    }
+    .card__top{ display:flex; align-items:center; gap:12px; }
+    .card__icon{
+      width:42px;height:42px;border-radius:12px;
+      background:rgba(124,58,237,.12);
+      display:grid; place-items:center;
+    }
+    .card__icon i{
+      width:18px;height:18px;border-radius:6px;
+      display:block;
+      background:rgba(124,58,237,.35);
+      box-shadow: inset 0 0 0 2px rgba(124,58,237,.35);
+    }
+    .card__title{ font-weight:800; font-size:16px; }
+    .card__text{ margin-top:10px; font-size:13px; color:var(--muted); line-height:1.45; }
+    .card__actions{ margin-top:14px; display:grid; gap:10px; }
+    .card__fine{ margin-top:10px; font-size:11px; color:var(--muted2); }
+
+    @media (min-width: 980px){
+      .hero__grid{ grid-template-columns: 1.1fr 0.9fr; gap:44px; }
+    }
+    @media (max-width: 520px){
+      .hero{ padding:42px 0; }
+      .hero__title{ font-size:38px; }
     }
 
-    function wirePurchaseCalc(){
-      const price = document.getElementById("price");
-      const downPct = document.getElementById("downPct");
-      const rate = document.getElementById("rate");
-      const years = document.getElementById("years");
-      const loanOut = document.getElementById("loanAmountOut");
-      const piOut = document.getElementById("piOut");
-      if(!price || !downPct || !rate || !years || !loanOut || !piOut) return;
+    /* Section spacing */
+    .section{ padding:64px 0; }
+    .section--bg{ background:var(--bg); border-top:1px solid rgba(148,163,184,.35); border-bottom:1px solid rgba(148,163,184,.35); }
+    .h2{ margin:10px 0 0; font-size:32px; line-height:1.15; font-weight:800; color:var(--accent); }
+    .lead{ margin:10px 0 0; color:var(--muted); font-size:14px; max-width:720px; }
 
-      function update(){
-        const p = Number(price.value||0);
-        const d = Math.min(100, Math.max(0, Number(downPct.value||0))) / 100;
-        const loan = Math.max(0, p*(1-d));
-        const pi = calcMonthlyPI(loan, Number(rate.value||0), Number(years.value||0));
-        loanOut.textContent = "$" + money0(loan);
-        piOut.textContent = "$" + money0(pi) + "/mo";
-      }
-      ["input","change"].forEach(evt=>{
-        price.addEventListener(evt, update);
-        downPct.addEventListener(evt, update);
-        rate.addEventListener(evt, update);
-        years.addEventListener(evt, update);
-      });
-      update();
+    /* Slider */
+    .slider{ position:relative; margin-top:18px; }
+    .track{
+      display:flex; gap:16px;
+      overflow-x:auto;
+      scroll-snap-type:x mandatory;
+      scroll-behavior:smooth;
+      -webkit-overflow-scrolling:touch;
+      padding:4px 2px;
+    }
+    .track::-webkit-scrollbar{ height:10px; }
+    .track::-webkit-scrollbar-thumb{ background:rgba(15,23,42,.18); border-radius:999px; }
+    .slide{
+      flex:0 0 auto;
+      scroll-snap-align:start;
+    }
+    .navbtn{
+      position:absolute; top:50%; transform:translateY(-50%);
+      width:42px;height:42px;border-radius:999px;
+      border:1px solid rgba(148,163,184,.6);
+      background:#fff;
+      box-shadow:var(--shadow2);
+      display:grid; place-items:center;
+      cursor:pointer; z-index:5;
+    }
+    .navbtn--prev{ left:-10px; }
+    .navbtn--next{ right:-10px; }
+    .fadeL,.fadeR{
+      pointer-events:none;
+      position:absolute; top:0; bottom:0; width:56px; z-index:4;
+    }
+    .fadeL{ left:0; background:linear-gradient(to right, #fff, rgba(255,255,255,0)); }
+    .fadeR{ right:0; background:linear-gradient(to left, #fff, rgba(255,255,255,0)); }
+    @media (max-width: 860px){
+      .navbtn{ display:none; }
     }
 
-    function wireVACalc(){
-      const bal = document.getElementById("vaBalance");
-      const rate = document.getElementById("vaRate");
-      const years = document.getElementById("vaYears");
-      const rateUsed = document.getElementById("vaRateUsed");
-      const loanOut = document.getElementById("vaLoanOut");
-      const piOut = document.getElementById("vaPiOut");
-      if(!bal || !rate || !years || !rateUsed || !loanOut || !piOut) return;
-
-      function update(){
-        const L = Math.max(0, Number(bal.value||0));
-        const r = Math.max(0, Number(rate.value||0));
-        const y = Math.max(0, Number(years.value||0));
-        rateUsed.textContent = r.toFixed(3) + "%";
-        loanOut.textContent = "$" + money0(L);
-        const pi = calcMonthlyPI(L, r, y);
-        piOut.textContent = "$" + money0(pi) + "/mo";
-      }
-      ["input","change"].forEach(evt=>{
-        bal.addEventListener(evt, update);
-        rate.addEventListener(evt, update);
-        years.addEventListener(evt, update);
-      });
-      update();
+    /* Program card */
+    .pCard{
+      width:340px;
+      border:1px solid rgba(148,163,184,.45);
+      border-radius:18px;
+      background:#fff;
+      padding:18px;
+      box-shadow:0 6px 18px rgba(15,23,42,.06);
     }
-
-    function wireContactForm(){
-      const form = document.getElementById("contactForm");
-      const thanks = document.getElementById("formThanks");
-      if(!form || !thanks) return;
-
-      form.addEventListener("submit", function(e){
-        e.preventDefault();
-        thanks.classList.remove("hidden");
-        thanks.scrollIntoView({behavior:"smooth", block:"center"});
-      });
+    .pCard__top{ display:flex; gap:12px; align-items:center; }
+    .pIcon{
+      width:40px;height:40px;border-radius:14px;
+      display:grid; place-items:center;
+      font-weight:800;
     }
-
-    function initElfsight(){
-      const wrap = document.getElementById("elfsightWrap");
-      if (wrap) wrap.innerHTML = ELFSIGHT_WIDGET_DIV;
-
-      // Load script if not present
-      if (!document.querySelector(`script[src="${ELFSIGHT_SCRIPT_SRC}"]`)){
-        const s = document.createElement("script");
-        s.src = ELFSIGHT_SCRIPT_SRC;
-        s.async = true;
-        document.body.appendChild(s);
-      }
-
-      // Try init if platform exists
-      let tries = 0;
-      const t = setInterval(() => {
-        tries += 1;
-        const platform = window.ElfsightPlatform;
-        if (platform && typeof platform.init === "function") {
-          try { platform.init(); } catch(e) {}
-          clearInterval(t);
-        }
-        if (tries > 40) clearInterval(t);
-      }, 250);
-    }
-
-    // Tests (browser-safe)
-    (function runSanityTests(){
-      try{
-        const a = calcMonthlyPI(300000,6,30);
-        const b = calcMonthlyPI(300000,0,30);
-        console.assert(Number.isFinite(a) && a>0, "PI positive");
-        console.assert(Math.abs(b-833.3333)<2, "0% is loan/n");
-        console.assert(calcMonthlyPI(0,6,30)===0, "0 loan => 0");
-        console.assert(calcMonthlyPI(100000,6,0)===0, "0 years => 0");
-      }catch(e){}
-    })();
-
-    // Boot
-    setLinks();
-    setYear();
-    showPageFromHash();
-    wirePurchaseCalc();
-    wireVACalc();
-    wireContactForm();
-    initElfsight();
-
-    window.addEventListener("hashchange", showPageFromHash);
-  </script>
-</body>
-</html>
+    .pCard h3{ margin:0; font-size:16px; font-weight:800; }
+    .pList{ margin:12px 0 0; padding:0; list-style:none; display:grid; gap:8px; color:var(--muted); font-size:13px; }
+    .pList li{ display:flex; gap:8px; align-items:flex-start; }
+    .dot{ margin-top:2px; width:18px; height:18px
