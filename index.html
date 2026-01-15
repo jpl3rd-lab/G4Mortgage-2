@@ -348,6 +348,49 @@
     .foot a:hover{color:#fff}
     .foot p{margin:0;color:#cbd5e1;font-weight:600;font-size:12px;line-height:1.6}
     .foot-small{margin-top:18px;padding-top:14px;border-top:1px solid rgba(226,232,240,.12);color:#94a3b8;font-size:12px;font-weight:600;line-height:1.6}
+    /* ===== Mobile layout fixes ===== */
+@media (max-width: 600px) {
+  /* Header tighter */
+  .header-row { padding: 8px 0 !important; }
+  .logo { width: 34px !important; height: 34px !important; border-radius: 12px !important; }
+  .brand-name .top { font-size: 13px !important; }
+  .brand-name .sub { font-size: 11px !important; }
+
+  /* Reduce hero padding + remove the "giant" feel */
+  .hero { padding: 0 !important; }
+  .hero-inner { padding: 18px 0 22px !important; gap: 14px !important; }
+
+  /* Badge + headline scale down */
+  .pill { font-size: 11px !important; padding: 6px 10px !important; }
+  h1, .h1 { font-size: 30px !important; line-height: 1.06 !important; letter-spacing: -0.4px !important; }
+  .hero p, .p { font-size: 13px !important; margin-top: 10px !important; }
+
+  /* Buttons: slightly smaller + consistent */
+  .hero-actions { margin-top: 14px !important; gap: 10px !important; }
+  .btn { padding: 10px 12px !important; border-radius: 12px !important; font-size: 13px !important; }
+
+  /* Bullets tighten */
+  .hero-bullets { margin-top: 12px !important; gap: 10px !important; font-size: 12px !important; }
+
+  /* Card should feel compact when stacked */
+  .card {
+    padding: 14px !important;
+    border-radius: 16px !important;
+    box-shadow: 0 10px 22px rgba(15,23,42,.08) !important;
+  }
+  .card p { font-size: 13px !important; }
+  .card-actions { gap: 10px !important; }
+  .fineprint { font-size: 10.5px !important; }
+
+  /* Reduce the big white band between hero + next section */
+  #programs, section { scroll-margin-top: 70px; }
+}
+
+/* Extra small phones: stack hero buttons full width (cleaner) */
+@media (max-width: 420px) {
+  .hero-actions .btn { width: 100% !important; }
+}
+
   </style>
 </head>
 
@@ -1008,6 +1051,7 @@
   </script>
 </body>
 </html>
+
 
 
 
