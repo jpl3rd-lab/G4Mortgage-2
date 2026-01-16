@@ -404,6 +404,26 @@
         font-size:13px;
         line-height:1;
       }
+      @media (max-width: 700px){
+  #calculator .hero-actions{
+    display:grid !important;
+    grid-template-columns: 1fr !important;
+  }
+}
+      /* ===== Calculator grid ===== */
+.calc-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:12px;
+}
+
+/* Mobile: stack calculator fields */
+@media (max-width: 700px){
+  .calc-grid{
+    grid-template-columns: 1fr !important;
+  }
+}
+
 
       .hero-bullets { margin-top: 12px; gap: 10px; font-size: 12px; }
 
@@ -733,7 +753,7 @@
       <div class="contact-grid" style="margin-top:14px">
         <!-- Inputs -->
         <div>
-          <div class="form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="calc-grid form-grid">
             <div class="field">
               <label>Home price</label>
               <input id="calcPrice" type="number" inputmode="numeric" min="0" value="600000">
@@ -1257,6 +1277,7 @@
 
 </body>
 </html>
+
 
 
 
