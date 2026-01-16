@@ -439,7 +439,36 @@
       #contact form > div[style*="grid-template-columns:1fr 1fr"]{
         grid-template-columns:1fr !important;
       }
-    }
+    }/* ===== Mobile HERO fix (clean spacing, no awkward layout) ===== */
+@media (max-width: 600px) {
+  .hero-inner { padding: 18px 0 22px !important; gap: 14px !important; }
+
+  h1, .h1 {
+    font-size: 32px !important;
+    line-height: 1.06 !important;
+    letter-spacing: -0.4px !important;
+    font-weight: 700 !important;
+  }
+
+  .p { font-size: 13.5px !important; }
+
+  /* Stack hero buttons (this matches the clean mobile look) */
+  .hero-actions {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+    margin-top: 14px !important;
+  }
+  .hero-actions .btn {
+    width: 100% !important;
+    padding: 12px 14px !important;
+    border-radius: 14px !important;
+  }
+
+  /* Make the right card sit naturally below */
+  .hero-inner > aside.card { margin-top: 6px !important; }
+}
+
   </style>
 </head>
 
@@ -810,78 +839,108 @@
   </footer>
 
   <script>
-    function setHref(id, url){
-      const el = document.getElementById(id);
-      if (el) el.href = url;
+  function setHref(id, url){
+    const el = document.getElementById(id);
+    if (el) el.href = url;
+  }
+
+  function initSlider(key){
+    const track = document.querySelector('[data-track="'+key+'"]');
+    const prev = document.querySelector('[data-prev="'+key+'"]');
+    const next = document.querySelector('[data-next="'+key+'"]');
+    if (!track) return;
+
+    // Ensure slider track behaves consistently
+    track.style.scrollSnapType = "x mandatory";
+    track.style.webkitOverflowScrolling = "touch";
+
+    function getCardWidth(){
+      // Prefer a visible slide (width > 0)
+      const slides = Array.from(track.querySelectorAll('.slide'));
+      const visible = slides.find(s => s.getBoundingClientRect().width > 0) || slides[0];
+      const rect = visible ? visible.getBoundingClientRect() : null;
+      return rect && rect.width ? rect.width : 320;
     }
 
-    function initSlider(key){
-      const track = document.querySelector('[data-track="'+key+'"]');
-      const prev = document.querySelector('[data-prev="'+key+'"]');
-      const next = document.querySelector('[data-next="'+key+'"]');
-      if (!track) return;
-
-      function scrollByCard(dir){
-        const first = track.querySelector('.slide');
-        const w = first ? first.getBoundingClientRect().width : 320;
-        track.scrollBy({ left: dir * (w + 16) * 1.25, behavior: 'smooth' });
-      }
-
-      if (prev) prev.addEventListener('click', () => scrollByCard(-1));
-      if (next) next.addEventListener('click', () => scrollByCard(1));
-
-      // Drag to scroll (desktop)
-      let isDown = false;
-      let startX = 0;
-      let startScrollLeft = 0;
-
-      track.addEventListener('mousedown', (e) => {
-        isDown = true;
-        startX = e.pageX;
-        startScrollLeft = track.scrollLeft;
-      });
-      window.addEventListener('mouseup', () => { isDown = false; });
-      window.addEventListener('mousemove', (e) => {
-        if (!isDown) return;
-        const dx = e.pageX - startX;
-        track.scrollLeft = startScrollLeft - dx;
-      });
+    function scrollByCard(dir){
+      const w = getCardWidth();
+      track.scrollBy({ left: dir * (w + 16), behavior: 'smooth' });
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const APPLY = (window.G4 && window.G4.APPLY_URL) || '#';
-      const INQUIRY = (window.G4 && window.G4.INQUIRY_URL) || '#';
+    if (prev) prev.addEventListener('click', () => scrollByCard(-1));
+    if (next) next.addEventListener('click', () => scrollByCard(1));
 
-      setHref('applyTop', APPLY);
-      setHref('applyHero', APPLY);
-      setHref('applyCard', APPLY);
-      setHref('applyContact', APPLY);
-      setHref('applyForm', APPLY);
-      setHref('footApply', APPLY);
+    // Drag to scroll (desktop)
+    let isDown = false;
+    let startX = 0;
+    let startScrollLeft = 0;
 
-      setHref('inquiryHero', INQUIRY);
-      setHref('inquiryCard', INQUIRY);
-      setHref('inquiryContact', INQUIRY);
-      setHref('footInquiry', INQUIRY);
-
-      document.querySelectorAll('[data-apply]').forEach(a => a.href = APPLY);
-
-      initSlider('programs');
-      initSlider('team');
-
-      const y = document.getElementById('year');
-      if (y) y.textContent = String(new Date().getFullYear());
-
-      const form = document.getElementById('contactForm');
-      const sent = document.getElementById('sentMsg');
-      if (form) {
-        form.addEventListener('submit', (e) => {
-          e.preventDefault();
-          if (sent) sent.style.display = 'block';
-          form.reset();
-        });
-      }
+    track.addEventListener('mousedown', (e) => {
+      isDown = true;
+      startX = e.pageX;
+      startScrollLeft = track.scrollLeft;
+      track.classList.add('dragging');
     });
-  </script>
+
+    window.addEventListener('mouseup', () => {
+      isDown = false;
+      track.classList.remove('dragging');
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      const dx = e.pageX - startX;
+      track.scrollLeft = startScrollLeft - dx;
+    });
+
+    // Re-measure on resize and after images load
+    window.addEventListener('resize', () => { /* triggers new widths */ });
+
+    // If there are images inside, wait for them too
+    const imgs = track.querySelectorAll('img');
+    imgs.forEach(img => {
+      if (img.complete) return;
+      img.addEventListener('load', () => { /* widths stabilize */ }, { once: true });
+      img.addEventListener('error', () => {}, { once: true });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const APPLY = (window.G4 && window.G4.APPLY_URL) || '#';
+    const INQUIRY = (window.G4 && window.G4.INQUIRY_URL) || '#';
+
+    setHref('applyTop', APPLY);
+    setHref('applyHero', APPLY);
+    setHref('applyCard', APPLY);
+    setHref('applyContact', APPLY);
+    setHref('applyForm', APPLY);
+    setHref('footApply', APPLY);
+
+    setHref('inquiryHero', INQUIRY);
+    setHref('inquiryCard', INQUIRY);
+    setHref('inquiryContact', INQUIRY);
+    setHref('footInquiry', INQUIRY);
+
+    document.querySelectorAll('[data-apply]').forEach(a => a.href = APPLY);
+
+    initSlider('programs');
+    initSlider('team');
+
+    const y = document.getElementById('year');
+    if (y) y.textContent = String(new Date().getFullYear());
+
+    const form = document.getElementById('contactForm');
+    const sent = document.getElementById('sentMsg');
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (sent) sent.style.display = 'block';
+        form.reset();
+      });
+    }
+  });
+</script>
+
 </body>
 </html>
+
