@@ -390,6 +390,48 @@
 @media (max-width: 420px) {
   .hero-actions .btn { width: 100% !important; }
 }
+    /* ===== Fix mobile horizontal drift (usually caused by form inputs) ===== */
+html, body { overflow-x: hidden; }
+
+/* Ensure form elements can shrink inside grid/flex parents */
+input, textarea, select, button {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* If your contact section uses a grid, allow items to shrink */
+.contact-grid,
+#contact .grid,
+#contact .wrap,
+#contact .hero-inner,
+#contact .card,
+#contact form,
+#contact .form-grid,
+form {
+  min-width: 0;
+}
+
+/* Force the message box to never exceed container width */
+textarea {
+  width: 100%;
+  display: block;
+  resize: vertical;
+}
+
+/* If you have any 100vw containers, they often cause iOS sideways wiggle */
+.hero, section, header, footer, .wrap {
+  max-width: 100%;
+}
+
+/* Mobile: avoid any 2-col grid forcing overflow */
+@media (max-width: 600px) {
+  #contact .grid,
+  #contact .form-grid,
+  .form-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
 
   </style>
 </head>
@@ -1051,6 +1093,7 @@
   </script>
 </body>
 </html>
+
 
 
 
