@@ -709,6 +709,84 @@
 </div>
 
   </section>
+        <!-- Mortgage Calculator -->
+<section id="calculator" class="section-pad">
+  <div class="wrap">
+    <div class="top-row">
+      <div>
+        <div class="pill">Mortgage Calculator</div>
+        <h2 class="h2">Estimate a payment, then get it dialed in</h2>
+        <p class="p" style="margin-top:8px">
+          Principal &amp; interest only — taxes, insurance, HOA, and mortgage insurance aren’t included.
+        </p>
+      </div>
+
+      <a class="btn btn-outline btn-small" id="calcInquiryTop" href="#">Send my scenario</a>
+    </div>
+
+    <div class="card" style="padding:20px">
+      <div class="card-title">
+        <div class="badge-icon">▦</div>
+        Quick Payment Estimate
+      </div>
+
+      <div class="contact-grid" style="margin-top:14px">
+        <!-- Inputs -->
+        <div>
+          <div class="form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div class="field">
+              <label>Home price</label>
+              <input id="calcPrice" type="number" inputmode="numeric" min="0" value="600000">
+            </div>
+
+            <div class="field">
+              <label>Down payment %</label>
+              <input id="calcDownPct" type="number" inputmode="decimal" min="0" max="100" step="0.1" value="20">
+            </div>
+
+            <div class="field">
+              <label>Rate %</label>
+              <input id="calcRate" type="number" inputmode="decimal" min="0" step="0.01" value="6.50">
+            </div>
+
+            <div class="field">
+              <label>Term (years)</label>
+              <input id="calcYears" type="number" inputmode="numeric" min="1" value="30">
+            </div>
+          </div>
+
+          <div class="fineprint" style="margin-top:12px">
+            This is a simple estimate for illustration only. Final payment depends on property taxes, homeowners insurance,
+            HOA dues (if any), mortgage insurance (if any), credit, and program guidelines.
+          </div>
+
+          <div class="hero-actions" style="margin-top:14px">
+            <a class="btn btn-primary" id="calcInquiry" href="#">Request custom scenario →</a>
+            <a class="btn btn-outline" id="calcApply" href="#">Start full application</a>
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div class="card" style="background:#f8fafc;border-radius:16px;box-shadow:none">
+          <div style="display:grid;gap:10px;font-size:13px;font-weight:700;color:#334155">
+            <div style="display:flex;justify-content:space-between;gap:12px">
+              <span style="color:var(--muted2);font-weight:700">Estimated loan amount</span>
+              <span id="calcLoanAmt" style="font-weight:900;color:#0f172a">$0</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-end">
+              <span style="color:var(--muted2);font-weight:700">Est. principal &amp; interest</span>
+              <span id="calcPayment" style="font-weight:900;color:#0f172a;font-size:20px">$0/mo</span>
+            </div>
+          </div>
+
+          <div class="fineprint" style="margin-top:12px">
+            Want the real number? Send your scenario and we’ll quote the right program with taxes/insurance/MI included.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
   <!-- Team -->
 <section id="team" class="section-pad">
@@ -1077,6 +1155,69 @@
       img.addEventListener('error', () => {}, { once: true });
     });
   }
+    <script>
+  // ===== Calculator helpers =====
+  function money0(x){
+    return (Number(x)||0).toLocaleString("en-US",{maximumFractionDigits:0});
+  }
+
+  function calcMonthlyPI(loanAmount, annualRatePct, years){
+    const n = Math.max(0, Math.round((Number(years)||0) * 12));
+    const L = Math.max(0, Number(loanAmount)||0);
+    if (!L || !n) return 0;
+    const r = (Number(annualRatePct)||0) / 100 / 12;
+    if (r === 0) return L / n;
+    const denom = 1 - Math.pow(1 + r, -n);
+    if (denom === 0) return 0;
+    return (L * r) / denom;
+  }
+
+  function initCalculator(){
+    const priceEl = document.getElementById("calcPrice");
+    const downEl  = document.getElementById("calcDownPct");
+    const rateEl  = document.getElementById("calcRate");
+    const yearsEl = document.getElementById("calcYears");
+
+    const loanOut = document.getElementById("calcLoanAmt");
+    const payOut  = document.getElementById("calcPayment");
+
+    if (!priceEl || !downEl || !rateEl || !yearsEl || !loanOut || !payOut) return;
+
+    function update(){
+      const price = Number(priceEl.value || 0);
+      const downPct = Number(downEl.value || 0) / 100;
+      const loan = Math.max(0, price * (1 - downPct));
+      const pi = calcMonthlyPI(loan, Number(rateEl.value || 0), Number(yearsEl.value || 0));
+
+      loanOut.textContent = "$" + money0(loan);
+      payOut.textContent = "$" + money0(pi) + "/mo";
+    }
+
+    ["input","change"].forEach(evt=>{
+      priceEl.addEventListener(evt, update);
+      downEl.addEventListener(evt, update);
+      rateEl.addEventListener(evt, update);
+      yearsEl.addEventListener(evt, update);
+    });
+
+    update();
+  }
+
+  // ====== Boot ======
+  document.addEventListener('DOMContentLoaded', () => {
+    const APPLY = (window.G4 && window.G4.APPLY_URL) || '#';
+    const INQUIRY = (window.G4 && window.G4.INQUIRY_URL) || '#';
+
+    // Wire calculator links if present
+    if (document.getElementById("calcApply")) document.getElementById("calcApply").href = APPLY;
+    if (document.getElementById("calcInquiry")) document.getElementById("calcInquiry").href = INQUIRY;
+    if (document.getElementById("calcInquiryTop")) document.getElementById("calcInquiryTop").href = INQUIRY;
+
+    // Init calculator
+    initCalculator();
+  });
+</script>
+
 
   document.addEventListener('DOMContentLoaded', () => {
     const APPLY = (window.G4 && window.G4.APPLY_URL) || '#';
@@ -1116,6 +1257,7 @@
 
 </body>
 </html>
+
 
 
 
