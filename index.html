@@ -430,8 +430,87 @@ textarea {
   .form-grid {
     grid-template-columns: 1fr !important;
   }
-}
+}/* Mobile: keep hero buttons side-by-side (stop full-width stacking) */
+@media (max-width: 600px) {
+  .hero-actions{
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
+    align-items: center !important;
+  }
 
+  .hero-actions .btn{
+    width: 100% !important;
+    padding: 11px 12px !important;
+    border-radius: 14px !important;
+    font-size: 13px !important;
+    line-height: 1 !important;
+  }
+}@media (max-width: 600px) {
+  .hero-inner{ padding: 18px 0 22px !important; gap: 12px !important; }
+  h1, .h1{ font-size: 30px !important; line-height: 1.06 !important; }
+}@media (max-width: 420px) { .hero-actions .btn { width:100%; } }
+/* ===== Mobile: Contact section + form should be 1-column and roomy ===== */
+@media (max-width: 700px) {
+  /* The overall contact section wrapper (left info + right form) */
+  #contact .grid,
+  .contact-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  /* Make the form card tighter but readable */
+  #contact .card,
+  .contact-card,
+  .form-card {
+    padding: 14px !important;
+    border-radius: 16px !important;
+  }
+
+  /* Form fields must be single column on mobile */
+  #contact .form-grid,
+  .form-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  /* Inputs & textarea */
+  #contact input,
+  #contact textarea,
+  #contact select {
+    width: 100% !important;
+    font-size: 16px !important; /* prevents iOS zoom + makes it cleaner */
+  }
+
+  /* Make textarea not huge on mobile */
+  #contact textarea {
+    min-height: 120px !important;
+  }
+
+  /* Buttons in the form: stack full width */
+  #contact .form-actions,
+  #contact .actions,
+  #contact .contact-actions {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+  #contact .form-actions .btn,
+  #contact .actions .btn,
+  #contact .contact-actions .btn {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+}
+@media (max-width: 700px) {
+  #contact .contact-actions {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
+  }
+}.form-grid { grid-template-columns: 1fr 1fr; }
 
   </style>
 </head>
@@ -1093,6 +1172,7 @@ textarea {
   </script>
 </body>
 </html>
+
 
 
 
