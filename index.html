@@ -486,6 +486,25 @@
     @media (max-width: 600px) {
   .brand { gap: 12px !important; }
 }
+/* ===== Header side padding fix (logo + Apply button) ===== */
+.header .wrap {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* Slightly more breathing room on small phones */
+@media (max-width: 600px) {
+  .header .wrap {
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+  }
+
+  /* Keep header height tight but balanced */
+  .header-row {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+  }
+}
 
 
 
@@ -1078,6 +1097,7 @@
 
 </body>
 </html>
+
 
 
 
