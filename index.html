@@ -468,6 +468,26 @@
   /* Make the right card sit naturally below */
   .hero-inner > aside.card { margin-top: 6px !important; }
 }
+    /* Mobile header side padding */
+@media (max-width: 600px) {
+  .wrap { padding-left: 16px !important; padding-right: 16px !important; }
+
+  /* If you want even more breathing room, use 18/20 instead */
+  /* .wrap { padding-left: 18px !important; padding-right: 18px !important; } */
+
+  .header-row { padding: 10px 0 !important; }
+
+  /* Give the Apply button a little internal spacing + prevent edge squeeze */
+  #applyTop {
+    padding: 10px 14px !important;
+    border-radius: 14px !important;
+  }
+}
+    @media (max-width: 600px) {
+  .brand { gap: 12px !important; }
+}
+
+
 
   </style>
 </head>
@@ -943,6 +963,7 @@
 
 </body>
 </html>
+
 
 
 
